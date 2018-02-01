@@ -4,6 +4,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
+// connect to test db
 before((done) => {
   mongoose.connect('mongodb://localhost/muber_test');
   mongoose.connection
