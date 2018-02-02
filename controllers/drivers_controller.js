@@ -7,6 +7,25 @@ module.exports = {
     res.send({hi: 'there'});
   },
 
+  index(req, res, next) {
+    const {lng, lat} = req.query; // http://site.com?lng=80&lat=20
+
+    Driver.aggregate([
+        {
+          '$geoNear': {
+            'near':  {
+              type: 'Point',
+              coordinates: [parseFloat(lng), parseFloat(lat)]},
+            'spherical': true,
+            'distanceField': 'dist',
+            'maxDistance': 200000
+          }
+        }
+      ])
+      .then((drivers) => res.send(drivers))
+      .catch(next)
+  },
+
   create(req, res, next){
     const driver = req.body;
 
